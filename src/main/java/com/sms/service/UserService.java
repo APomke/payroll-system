@@ -34,4 +34,6 @@ public interface UserService {
     int deleteUserByUserId(int userId);
     //修改用户
     int updateUser(User user);
+    //添加用户
+    int addUser(User user);
 }

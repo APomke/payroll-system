@@ -3,14 +3,17 @@ package com.sms.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sms.pojo.Salary;
 import com.sms.pojo.TempUser;
 import com.sms.pojo.User;
+import com.sms.service.SalaryServiceImpl;
 import com.sms.service.UserServiceImpl;
 import com.sms.utils.JwtUtils;
 import com.sms.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +24,9 @@ import java.util.regex.Pattern;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private SalaryServiceImpl salaryService;
 
     @PostMapping("/login")
     public Result login(@RequestBody TempUser tempUser){
@@ -37,8 +43,6 @@ public class UserController {
 
     @GetMapping("/info")
     public Result info(String token) {
-        System.out.println("获取的token为：" + token);
-
         String subject = JwtUtils.getClaimsByToken(token).getSubject();
 
         Pattern pattern = Pattern.compile("TempUser\\(username=(\\w+), password=(\\d+)\\)");
@@ -48,7 +52,6 @@ public class UserController {
             String username = matcher.group(1);
             String password = matcher.group(2);
             tempUser = new TempUser(username, password);
-            System.out.println("重新转成了类：" + tempUser);
         }
         User user = userService.getUserByAccountAndPassword(tempUser.getUsername(),tempUser.getPassword());
 
@@ -71,11 +74,54 @@ public class UserController {
     //根据用户名获取用户
     @GetMapping("/getUserByName")
     public Result getUserByName(String Name){
-        System.out.println("搜索用户被触发");
+        System.out.println("搜索用户被触发Name为：" + Name);
         User user = userService.getUserByUserName(Name);
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
         if (user != null){
-            return Result.ok().data("result",user);
+            return Result.ok().data("userList",userList);
         }
         return Result.error();
+    }
+
+    @GetMapping("/updateUser")
+    public Result updateUser(String User) throws JsonProcessingException {
+        System.out.println("修改用户被触发");
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = objectMapper.readValue(User, User.class);
+        int s = userService.updateUser(user);
+        if (s != 0){
+            return Result.ok();
+        }else {
+            return Result.error();
+        }
+    }
+
+    @GetMapping("/deleteUser")
+    public Result deleteUser(int userId){
+        System.out.println("删除用户被触发传入的userId为：" + userId);
+        int s = userService.deleteUserByUserId(userId);
+        if (s != 0){
+            return Result.ok();
+        }else {
+            return Result.error();
+        }
+    }
+
+    @GetMapping("/addUser")
+    public Result addUser(String user) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user2 = objectMapper.readValue(user, User.class);
+        System.out.println("添加用户触发传入的用户信息为：" + user);
+        int s = userService.addUser(user2);
+        //添加用户表的同时也向工资表添加员工
+        User user3 = userService.getUserByUserName(user2.getUserName());
+        Salary salary = new Salary(user3.getUserId(),user3.getUserName(),0,user3.getIsSalary());
+        salaryService.addSalary(salary);
+        if (s != 0){
+            return Result.ok();
+        }else {
+            return Result.error();
+        }
     }
 }

@@ -38,5 +38,7 @@ public interface UserMapper {
     int deleteUserByUserId(@Param("userId") int userId);
     //修改用户
     int updateUser(User user);
+    //添加用户
+    int addUser(User user);
 
 }

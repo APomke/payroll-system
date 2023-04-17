@@ -44,6 +44,10 @@
         delete from user where userId=#{userId}
     </delete>
     <update id="updateUser" parameterType="com.sms.pojo.User">
-        update user set userId=#{userId},userName=#{userName},userAccount=#{userAccount},userPassword=#{userPassword},age=#{age},sex=#{sex},departmentId=#{departmentId},roleId=#{roleId},punch=#{punch},isSalary=#{isSalary},entryTime=#{entryTime}
+        update user set userName=#{userName},userAccount=#{userAccount},userPassword=#{userPassword},age=#{age},sex=#{sex},departmentId=#{departmentId},roleId=#{roleId},punch=#{punch},isSalary=#{isSalary},entryTime=#{entryTime} where userId=#{userId}
     </update>
+    <insert id="addUser" parameterType="com.sms.pojo.User">
+        insert into user (userId, userName, userAccount, userPassword, age, sex, departmentId, roleId, punch, isSalary, entryTime)
+        VALUES (#{userId},#{userName},#{userAccount},#{userPassword},#{age},#{sex},#{departmentId},#{roleId},#{punch},#{isSalary},#{entryTime})
+    </insert>
 </mapper>

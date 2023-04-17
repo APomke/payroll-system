@@ -80,4 +80,9 @@ public class UserServiceImpl implements UserService{
     public int updateUser(User user) {
         return userMapper.updateUser(user);
     }
+
+    @Override
+    public int addUser(User user) {
+        return userMapper.addUser(user);
+    }
 }
