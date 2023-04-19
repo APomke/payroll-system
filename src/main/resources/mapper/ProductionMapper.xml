@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sms.dao.ProductionMapper">
+    <select id="getAllProduction" resultType="com.sms.pojo.Production">
+        select * from production
+    </select>
+
+    <insert id="addProduction" parameterType="com.sms.pojo.Production">
+        insert into production (productionId, productionName, productionCount, userId, userName, productionDate)
+        VALUES (#{productionId},#{productionName},#{productionCount},#{userId},#{userName},#{productionDate})
+    </insert>
+    <update id="updateProduction" parameterType="com.sms.pojo.Production">
+        update production set productionId=#{productionId},productionName=#{productionName},productionCount=#{productionCount},userId=#{userId},userName=#{userName},productionDate=#{productionDate}
+    </update>
+    <select id="getProductionById" parameterType="int" resultType="com.sms.pojo.Production">
+        select * from production where productionId=#{productionId}
+    </select>
+    <select id="getProductionByUserName" parameterType="String" resultType="com.sms.pojo.Production">
+        select * from production where userName=#{userName}
+    </select>
+    <select id="getProductionByUserId" parameterType="int" resultType="com.sms.pojo.Production">
+        select * from production where userId=#{userId}
+    </select>
+    <delete id="deleteProduction" parameterType="int">
+        delete from production where productionId=#{productionId}
+    </delete>
+    <select id="getProductionByName" parameterType="String" resultType="com.sms.pojo.Production">
+        select * from production where productionName=#{productionName}
+    </select>
+</mapper>

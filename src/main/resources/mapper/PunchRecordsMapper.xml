@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sms.dao.PunchRecordsMapper">
+    <select id="getAllPunchRecords" resultType="com.sms.pojo.PunchRecords">
+        select * from punchrecords
+    </select>
+    <insert id="addPunchRecords" parameterType="com.sms.pojo.PunchRecords">
+        INSERT INTO punchrecords (punchRecordsId, punchRecordsUserName, punchRecordsTime)
+        VALUES (#{punchRecordsId},#{punchRecordsUserName},#{punchRecordsTime})
+    </insert>
+    <delete id="deletePunchRecords">
+        delete from punchrecords where 1=1
+    </delete>
+</mapper>

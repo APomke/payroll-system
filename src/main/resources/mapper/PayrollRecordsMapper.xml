@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sms.dao.PayrollRecordsMapper">
+    <select id="getAllRecords" resultType="com.sms.pojo.PayrollRecords">
+        select * from payrollrecords where 1=1 order by recordsTime desc
+    </select>
+    <delete id="deleteAllRecords">
+        delete from payrollrecords where 1=1
+    </delete>
+    <insert id="addRecords" parameterType="com.sms.pojo.PayrollRecords">
+        insert into payrollrecords (payrollRecords, userId, userName, salary, recordsTime, remark)
+        VALUES (#{payrollRecords},#{userId},#{userName},#{salary},#{recordsTime},#{remark})
+    </insert>
+</mapper>

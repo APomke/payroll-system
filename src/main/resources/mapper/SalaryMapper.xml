@@ -31,4 +31,13 @@
     <select id="getSalaryByNoPay" resultType="com.sms.pojo.Salary">
         select * from salary where isSalary=0
     </select>
+    <select id="getSalaryByUserId" parameterType="int" resultType="com.sms.pojo.Salary">
+        select * from salary where userId=#{userId}
+    </select>
+    <update id="payAllSalary">
+        update salary set isSalary=1 where 1=1
+    </update>
+    <update id="NoPaySalary">
+        update salary set isSalary=0 where 1=1
+    </update>
 </mapper>

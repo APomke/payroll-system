@@ -3,9 +3,11 @@ package com.sms.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sms.pojo.Punch;
 import com.sms.pojo.Salary;
 import com.sms.pojo.TempUser;
 import com.sms.pojo.User;
+import com.sms.service.PunchServiceImpl;
 import com.sms.service.SalaryServiceImpl;
 import com.sms.service.UserServiceImpl;
 import com.sms.utils.JwtUtils;
@@ -27,6 +29,9 @@ public class UserController {
 
     @Autowired
     private SalaryServiceImpl salaryService;
+
+    @Autowired
+    private PunchServiceImpl punchService;
 
     @PostMapping("/login")
     public Result login(@RequestBody TempUser tempUser){
@@ -118,10 +123,31 @@ public class UserController {
         User user3 = userService.getUserByUserName(user2.getUserName());
         Salary salary = new Salary(user3.getUserId(),user3.getUserName(),0,user3.getIsSalary());
         salaryService.addSalary(salary);
+        //同时给打卡表添加对应用户
+        Punch punch = new Punch(user3.getUserId(),user3.getUserName(),"0000",0);
+        punchService.addPunch(punch);
         if (s != 0){
             return Result.ok();
         }else {
             return Result.error();
         }
+    }
+
+    @GetMapping("/getAllUserCount")
+    public Result getAllUserCount(){
+        List<User> userList = userService.getAllUser();
+        return Result.ok().data("count",userList.size());
+    }
+
+    @GetMapping("/getYesPunchCount")
+    public Result getYesPunchCount(){
+        List<User> userList = userService.getAllUser();
+        int punchCount = 0;
+        for (User user:userList){
+            if (user.getPunch() == 1){
+                punchCount++;
+            }
+        }
+        return Result.ok().data("punchCount",punchCount);
     }
 }

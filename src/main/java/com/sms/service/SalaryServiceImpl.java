@@ -57,4 +57,19 @@ public class SalaryServiceImpl implements SalaryService {
     public List<Salary> getSalaryByNoPay() {
         return salaryMapper.getSalaryByNoPay();
     }
+
+    @Override
+    public Salary getSalaryByUserId(int userId) {
+        return salaryMapper.getSalaryByUserId(userId);
+    }
+
+    @Override
+    public int payAllSalary() {
+        return salaryMapper.payAllSalary();
+    }
+
+    @Override
+    public int NoPaySalary() {
+        return salaryMapper.NoPaySalary();
+    }
 }

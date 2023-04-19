@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sms.dao.PunchMapper">
+    <select id="getAllPunch" resultType="com.sms.pojo.Punch">
+        select * from punch
+    </select>
+    <update id="updatePunch" parameterType="com.sms.pojo.Punch">
+        update punch set punchStatus=#{punchStatus},punchTime=#{punchTime} where punchId=#{punchId}
+    </update>
+    <select id="getPunchByUserName" parameterType="String" resultType="com.sms.pojo.Punch">
+        select * from punch where userName=#{userName}
+    </select>
+    <select id="getAllYesPunch" resultType="com.sms.pojo.Punch">
+        select * from punch where punchStatus=1
+    </select>
+    <select id="getAllNoPunch" resultType="com.sms.pojo.Punch">
+        select * from punch where punchStatus=0
+    </select>
+    <insert id="addPunch" parameterType="com.sms.pojo.Punch">
+        insert into punch (punchId, userId, userName, punchTime, punchStatus)
+        VALUES (#{punchId},#{userId},#{userName},#{punchTime},#{punchStatus})
+    </insert>
+</mapper>

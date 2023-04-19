@@ -27,4 +27,10 @@ public interface SalaryMapper {
     List<Salary> getSalaryByIsPay();
     //获取这个月没发薪水的用户
     List<Salary> getSalaryByNoPay();
+    //根据userId获取用户
+    Salary getSalaryByUserId(@Param("userId") int userId);
+    //给所有员工发放工资
+    int payAllSalary();
+    //给所有员工设置工资状态为未发放
+    int NoPaySalary();
 }
