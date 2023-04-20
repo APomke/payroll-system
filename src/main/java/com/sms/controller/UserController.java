@@ -148,6 +148,7 @@ public class UserController {
                 punchCount++;
             }
         }
-        return Result.ok().data("punchCount",punchCount);
+        int NopunchCount = userList.size() - punchCount;
+        return Result.ok().data("punchCount",punchCount).data("NopunchCount",NopunchCount);
     }
 }

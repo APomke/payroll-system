@@ -5,6 +5,7 @@
       <option name="excludeList">
         <list>
           <option value="io.lettuce:lettuce-core" />
+          <option value="org.springframework.boot:spring-boot-starter-validation" />
         </list>
       </option>
     </inspection_tool>
